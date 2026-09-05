@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-<style><![CDATA[html,body{margin:0;width:100%;height:100%}]]></style>
+<style><![CDATA[html,body{margin:0;width:100%}]]></style>
 <script><![CDATA[(function(){
   var XHTML_NS = "http://www.w3.org/1999/xhtml";
   var realGetElementById = document.getElementById.bind(document);
@@ -18,34 +18,33 @@
   document.querySelector = function(sel) { return root().querySelector(sel) || realQuerySelector(sel); };
   document.querySelectorAll = function(sel) { var r = root().querySelectorAll(sel); return r.length ? r : realQuerySelectorAll(sel); };
 
-  // Chromium doesn't deliver mouse-wheel scrolling into HTML content nested
-  // inside an SVG <foreignObject> — no CSS overflow/positioning trick fixes
-  // that, it's the wheel-to-scroll delegation itself that never happens.
-  // Replacing it here: walk up from whatever the cursor is over to the
-  // nearest actually-scrollable box (falling back to our embedded root)
-  // and drive its scrollTop/scrollLeft directly from the wheel delta.
-  function findScrollable(node) {
+  // Chromium has a filed, confirmed bug (issue 40165244) where scrolling
+  // *inside* HTML content nested in an SVG <foreignObject> doesn't work —
+  // not a CSS gap, an engine-level hit-testing/scroll-routing defect, and
+  // a plain manual wheel-listener workaround (tried first) still didn't
+  // reach it reliably either. Sidestepping the whole broken code path
+  // instead: don't give the embedded content its own internal scroll
+  // region at all — let it flow to its natural full height, continuously
+  // resize the outer <svg>/<foreignObject> to match that height via
+  // ResizeObserver, and let the browser's native, unrelated, well-supported
+  // top-level PAGE scroll (scrolling the SVG document itself, exactly like
+  // any overflowing page) handle it instead.
+  var svgEl = document.currentScript ? document.currentScript.parentNode : null;
+  function resize() {
+    if (!svgEl) return;
     var r = root();
-    while (node && node !== r.parentNode) {
-      if (node.nodeType === 1) {
-        var style = window.getComputedStyle(node);
-        var scrollableY = /(auto|scroll)/.test(style.overflowY) && node.scrollHeight > node.clientHeight;
-        var scrollableX = /(auto|scroll)/.test(style.overflowX) && node.scrollWidth > node.clientWidth;
-        if (scrollableY || scrollableX) return node;
-      }
-      node = node.parentNode;
-    }
-    return r;
+    var h = Math.max(r.scrollHeight, window.innerHeight);
+    svgEl.setAttribute("height", h);
+    var fo = svgEl.querySelector("foreignObject");
+    if (fo) fo.setAttribute("height", h);
   }
-  window.addEventListener("wheel", function(e) {
-    var target = findScrollable(e.target);
-    target.scrollTop += e.deltaY;
-    target.scrollLeft += e.deltaX;
-    e.preventDefault();
-  }, { passive: false });
+  window.addEventListener("load", resize);
+  window.addEventListener("resize", resize);
+  new MutationObserver(resize).observe(document, { childList: true, subtree: true, attributes: true });
+  setInterval(resize, 400);
 })();]]></script>
 <foreignObject width="100%" height="100%">
-<html xmlns="http://www.w3.org/1999/xhtml" id="velcro-embedded-root" style="position:fixed;inset:0;overflow:auto;margin:0">
+<html xmlns="http://www.w3.org/1999/xhtml" id="velcro-embedded-root" style="display:block;width:100%;margin:0">
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
