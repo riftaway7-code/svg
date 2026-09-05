@@ -63,7 +63,7 @@
   setInterval(resize, 400);
 })();]]></script>
 <foreignObject width="100%" height="100%">
-<html xmlns="http://www.w3.org/1999/xhtml" id="velcro-embedded-root" style="display:block;width:100%;margin:0">
+<html xmlns="http://www.w3.org/1999/xhtml" id="velcro-embedded-root" data-theme="dark" style="display:block;width:100%;margin:0">
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
