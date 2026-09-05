@@ -33,7 +33,17 @@
   function resize() {
     if (!svgEl) return;
     var r = root();
-    var h = Math.max(r.scrollHeight, window.innerHeight);
+    // Another Chromium foreignObject bug (issue 578682): position:fixed
+    // content inside one gets positioned relative to the wrong box, not
+    // the true viewport. The site's fullscreen game-player overlay is
+    // position:fixed — while it's open, keep the SVG exactly
+    // viewport-sized (instead of stretched to the page's full scroll
+    // height) so that buggy fixed-positioning happens to line up with the
+    // real viewport anyway, rather than appearing scrolled-past and
+    // scaled wrong.
+    var body = r.querySelector("body");
+    var overlayOpen = body && body.classList.contains("player-open");
+    var h = overlayOpen ? window.innerHeight : Math.max(r.scrollHeight, window.innerHeight);
     svgEl.setAttribute("height", h);
     var fo = svgEl.querySelector("foreignObject");
     if (fo) fo.setAttribute("height", h);
