@@ -4187,6 +4187,13 @@ fetch("https://api.themoviedb.org/3/movie/popular?api_key=" + TMDB_KEY + "&page=
 // statically somewhere that happens to have it (best-effort either way).
 let proxyReady = false;
 const WISP = "wss://anura.pro/wisp/";
+// The cookie-relay and ai-chat routes below live on the real velcro
+// server. A relative fetch("/api/...") only reaches them when this file
+// is actually served BY that server — when it's embedded elsewhere (the
+// jsdelivr/foreignObject build has no backend of its own at all), a
+// relative path resolves against that host instead and always 405s. An
+// absolute URL works identically in both cases, so just always use it.
+const BACKEND_ORIGIN = "https://footless-morale-gating.ngrok-free.dev";
 let lcReadyPromise = null;
 async function lcWaitForGlobal() {
   if (typeof libcurl !== "undefined" && libcurl) return;
@@ -4264,7 +4271,7 @@ function lcRawCookieFetch(url, cookie, method, headers, body) {
         .cookieFetch(url, cookie, method, headers, body);
     });
   }
-  return fetch("/api/cookie-fetch", {
+  return fetch(BACKEND_ORIGIN + "/api/cookie-fetch", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ url, cookie, method, headers, body }),
@@ -4693,7 +4700,7 @@ async function launchGame(url, title) {
           .aiChat(messagesJson, pageContextJson);
       });
     }
-    return fetch("/api/ai/chat", {
+    return fetch(BACKEND_ORIGIN + "/api/ai/chat", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ messages: JSON.parse(messagesJson), pageContext: pageContextJson ? JSON.parse(pageContextJson) : null }),
