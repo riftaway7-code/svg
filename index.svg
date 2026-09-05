@@ -927,7 +927,7 @@ html, body.player-open { overflow: hidden; }
   <main>
     <section class="hero">
       <h1>velcro</h1>
-      <p class="tagline">standalone build &amp;mdash; games/apps/movies/browser are genuinely live</p>
+      <p class="tagline">standalone build — games/apps/movies/browser are genuinely live</p>
     </section>
     <section class="controls">
       <div class="game-count" id="gameCount"></div>
@@ -967,7 +967,7 @@ html, body.player-open { overflow: hidden; }
     <a data-view="account"><span class="material-symbols-rounded">person</span>account</a>
   </nav>
   <main>
-    <section class="hero"><h1>movies</h1><p class="tagline" id="moviesStatus">loading live from TMDB&amp;hellip;</p></section>
+    <section class="hero"><h1>movies</h1><p class="tagline" id="moviesStatus">loading live from TMDB…</p></section>
     <section class="games-grid" id="moviesGrid"></section>
   </main>
 </div>
@@ -985,7 +985,7 @@ html, body.player-open { overflow: hidden; }
     <a data-view="account"><span class="material-symbols-rounded">person</span>account</a>
   </nav>
   <main>
-    <section class="hero"><h1>cloud gaming</h1><p class="tagline">real android apps, streamed &amp;mdash; not a proxy, an actual cloud instance</p></section>
+    <section class="hero"><h1>cloud gaming</h1><p class="tagline">real android apps, streamed — not a proxy, an actual cloud instance</p></section>
     <section class="games-grid" id="cloudGrid"></section>
   </main>
 </div>
@@ -1003,7 +1003,7 @@ html, body.player-open { overflow: hidden; }
     <a data-view="account"><span class="material-symbols-rounded">person</span>account</a>
   </nav>
   <main>
-    <section class="hero"><h1>browser</h1><p class="tagline" id="proxyStatus">initializing libcurl.js + wisp&amp;hellip;</p></section>
+    <section class="hero"><h1>browser</h1><p class="tagline" id="proxyStatus">initializing libcurl.js + wisp…</p></section>
     <div class="browser-bar">
       <input id="urlBar" class="search-input" style="background:var(--bg-elevated); border:2px solid var(--border); border-radius:999px; padding:10px 16px;" placeholder="enter a url" />
       <button id="goBtn" class="pill active" style="border:none;">go</button>
@@ -1026,7 +1026,7 @@ html, body.player-open { overflow: hidden; }
   </nav>
   <main>
     <section class="hero"><h1>chat</h1></section>
-    <div class="unavailable"><span class="material-symbols-rounded">forum</span>chat needs a live WebSocket server relaying messages between real users &amp;mdash; that can't exist inside a single static file. use the full site for this.</div>
+    <div class="unavailable"><span class="material-symbols-rounded">forum</span>chat needs a live WebSocket server relaying messages between real users — that can't exist inside a single static file. use the full site for this.</div>
   </main>
 </div>
 
@@ -1100,7 +1100,7 @@ html, body.player-open { overflow: hidden; }
   </nav>
   <main>
     <section class="hero"><h1>account</h1></section>
-    <div class="unavailable"><span class="material-symbols-rounded">person</span>accounts need a real server + database to check logins against &amp;mdash; a static file has nowhere to store or verify that. use the full site for this.</div>
+    <div class="unavailable"><span class="material-symbols-rounded">person</span>accounts need a real server + database to check logins against — a static file has nowhere to store or verify that. use the full site for this.</div>
   </main>
 </div>
 
@@ -1109,7 +1109,7 @@ html, body.player-open { overflow: hidden; }
     <div class="cover-section">
       <button class="cover-btn" id="playerBack" title="Back to velcro"><span class="material-symbols-rounded">arrow_back</span></button>
     </div>
-    <div class="cover-section center"><span class="cover-title" id="gameTitle">loading&amp;hellip;</span></div>
+    <div class="cover-section center"><span class="cover-title" id="gameTitle">loading…</span></div>
     <div class="cover-section right">
       <button class="cover-btn" id="playerClose" title="Close"><span class="material-symbols-rounded">close</span></button>
     </div>
@@ -1118,9 +1118,9 @@ html, body.player-open { overflow: hidden; }
     <iframe id="gameFrame" class="cover-viewport" allowfullscreen="allowfullscreen"></iframe>
     <div class="game-loader" id="gameLoader">
       <div class="spinner"></div>
-      <div class="gl-title" id="glTitle">loading&amp;hellip;</div>
+      <div class="gl-title" id="glTitle">loading…</div>
       <div class="gl-hint" id="glHint">booting the proxy and the game</div>
-      <button id="glDismiss" type="button" hidden="hidden">still loading &amp;mdash; show anyway</button>
+      <button id="glDismiss" type="button" hidden="hidden">still loading — show anyway</button>
     </div>
   </div>
 </div>
