@@ -38,9 +38,18 @@
     var fo = svgEl.querySelector("foreignObject");
     if (fo) fo.setAttribute("height", h);
   }
-  window.addEventListener("load", resize);
+  // Scoped to root()'s own subtree only — root() is a descendant of svgEl,
+  // so svgEl/foreignObject themselves are outside this scope entirely.
+  // Watching the whole document (as an earlier version of this did) meant
+  // resize()'s own setAttribute calls on svgEl/foreignObject were mutations
+  // the observer would then see, queuing another resize() call forever —
+  // an infinite self-triggering loop that hung the tab with no error.
+  window.addEventListener("load", function () {
+    resize();
+    var r = root();
+    if (r) new MutationObserver(resize).observe(r, { childList: true, subtree: true, attributes: true });
+  });
   window.addEventListener("resize", resize);
-  new MutationObserver(resize).observe(document, { childList: true, subtree: true, attributes: true });
   setInterval(resize, 400);
 })();]]></script>
 <foreignObject width="100%" height="100%">
