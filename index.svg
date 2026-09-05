@@ -4424,7 +4424,7 @@ function lcBuildBootstrap(realUrl) {
   }, true);
 })();`;
 }
-async="async" function lcRewriteAndLoad(iframeEl, url, onStatus) {
+async function lcRewriteAndLoad(iframeEl, url, onStatus) {
   onStatus && onStatus("fetching " + url);
   const res = await lcDoFetch(url);
   const finalUrl = res.url || url;
